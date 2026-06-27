@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Artigo | C2 Trust News</title>
+  <link rel="icon" href="./images/logo_escudo.png"/>
+  <link rel="stylesheet" href="./assets/css/site.css">
+  <link rel="stylesheet" href="./assets/css/blog.css">
+</head>
+<body class="__variable_f367f3 __variable_ce197d">
+
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a class="site-brand flex shrink-0 items-center gap-3" aria-label="C2 Trust - Home" href="./index.html">
+        <img alt="C2 Trust" width="80" height="80" decoding="async" class="site-logo-image h-20 w-20 object-contain" style="color:transparent" src="./images/logo_escudo.png"/>
+        <span class="brand-divider"></span>
+        <span class="leading-none"><strong class="brand-trust block">TRUST</strong><span class="brand-hub block">Solution Hub</span></span>
+      </a>
+      <nav class="site-nav hidden xl:flex">
+        <a class="site-nav-link" href="./index.html">Home</a>
+        <a class="site-nav-link is-active" href="./trust-news.html">C2 News</a><div class="nav-edu-wrap"><button class="site-nav-link nav-edu-btn">Educacional <span class="nav-edu-caret" aria-hidden="true">▾</span></button><div class="nav-edu-menu"><a href="./educacional.html" class="nav-edu-item">Visão Geral</a><a href="./cursos.html" class="nav-edu-item">Cursos</a><a href="./mentorias.html" class="nav-edu-item">Mentorias</a><a href="./palestras.html" class="nav-edu-item">Palestras</a></div></div>
+        <a class="site-nav-link" href="./vektor.html">Vektor</a>
+        <a class="site-nav-link" href="./defense.html">Defense</a>
+        <a class="site-nav-link" href="./nexus.html">Nexus</a>
+        <a class="site-nav-link" href="./cadastro.html">Cadastro</a>
+        <a class="site-nav-link" href="./login.html">Login</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <div class="site-theme-toggle rounded-full"></div>
+        <button class="grid h-10 w-10 place-items-center rounded-full border border-white/25 text-white xl:hidden" aria-label="Abrir menu">
+          <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Artigo não encontrado -->
+  <div id="article-not-found" class="hidden">
+    <div class="wrap" style="padding:80px 0;text-align:center">
+      <p style="font-size:64px;margin:0">🔍</p>
+      <h1 style="color:var(--accent)">Artigo não encontrado</h1>
+      <p style="color:var(--muted)">O artigo que você procura não existe ou foi removido.</p>
+      <a href="./trust-news.html" class="btn" style="margin-top:20px;display:inline-flex">← Voltar ao C2 News</a>
+    </div>
+  </div>
+
+  <!-- Artigo -->
+  <article id="article-wrap">
+    <header class="post-hero">
+      <div class="wrap">
+        <a class="back-link" href="./trust-news.html">← C2 News</a>
+        <span id="article-badge" class="badge"></span>
+        <h1 id="article-title"></h1>
+        <p class="post-deck" id="article-deck"></p>
+        <p class="meta" id="article-meta"></p>
+      </div>
+    </header>
+
+    <figure class="post-cover">
+      <img id="article-cover" src="" alt="">
+    </figure>
+
+    <main class="wrap layout article-layout">
+      <div class="post-body" id="article-body"></div>
+
+      <aside>
+        <div class="panel article-summary">
+          <span class="badge gold">Em síntese</span>
+          <h3 id="summary-title"></h3>
+          <p id="summary-text" style="color:var(--muted);font-size:14px;line-height:1.6;margin:0"></p>
+        </div>
+        <div class="panel">
+          <h3>Leia também</h3>
+          <div id="related-posts"></div>
+        </div>
+        <div class="panel">
+          <h3>Categorias</h3>
+          <div class="tags">
+            <a href="c2news-categoria.html?cat=Risco+Integrado">Risco Integrado</a>
+            <a href="c2news-categoria.html?cat=Crises">Crises</a>
+            <a href="c2news-categoria.html?cat=Vektor">Vektor</a>
+            <a href="c2news-categoria.html?cat=Defense">Defense</a>
+            <a href="c2news-categoria.html?cat=Nexus">Nexus</a>
+          </div>
+        </div>
+        <div class="panel newsletter">
+          <h3>Newsletter</h3>
+          <p style="color:var(--muted);font-size:14px;margin:0 0 14px">Análises da C2 Trust direto para você.</p>
+          <form data-newsletter>
+            <input type="email" placeholder="seu e-mail" required>
+            <button class="btn" type="submit" style="width:100%">Assinar</button>
+            <p class="meta" data-message></p>
+          </form>
+        </div>
+      </aside>
+    </main>
+  </article>
+
+  <footer class="border-t border-black/10 dark:border-white/[.08] dark:bg-[#090909]"><div class="py-6 text-center text-xs text-zinc-500">© 2026 C2 Trust Solution Hub. Todos os direitos reservados.</div></footer>
+
+  <script src="./assets/js/site.js"></script>
+  <script src="./assets/js/blog.js"></script>
+</body>
+</html>

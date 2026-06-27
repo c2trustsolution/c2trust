@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Painel C2 News | C2 Trust</title>
+  <link rel="icon" href="./images/logo_escudo.png">
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700&display=swap");
+
+    :root {
+      --ink: #18202a; --muted: #66717e; --line: #dce4ea; --paper: #f7f9fb;
+      --accent: #c98a00; --accent-dim: #a87200; --coral: #e6533f;
+      --white: #fff; --shadow: 0 18px 45px rgba(26,45,61,.12); --navy: #071525;
+    }
+    html.dark {
+      --ink: #eef6fb; --muted: #8a9ab0; --line: #262626; --paper: #090909;
+      --accent: #F2B632; --accent-dim: #c98a1e; --coral: #e85c3c;
+      --white: #111111; --shadow: 0 18px 50px rgba(0,0,0,.6); --navy: #040404;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; padding-top: 0; background: var(--paper); color: var(--ink); font-family: "Inter", Arial, sans-serif; }
+    .admin-app { min-height: 100vh; display: grid; grid-template-columns: 290px minmax(0,1fr); }
+
+    /* Sidebar */
+    .admin-sidebar { position: sticky; top: 0; height: 100vh; overflow-y: auto; background: var(--navy); color: #fff; padding: 18px; }
+    .admin-brand { display: flex; align-items: center; gap: 12px; min-height: 58px; margin-bottom: 18px; font: 700 17px "Sora","Inter",sans-serif; color: var(--accent); text-decoration: none; }
+    .admin-brand img { width: 46px; height: 46px; object-fit: contain; flex-shrink: 0; }
+    .admin-menu { display: grid; gap: 6px; }
+    .admin-menu button { min-height: 42px; border: 1px solid rgba(255,255,255,.1); background: transparent; color: #d9e6ef; text-align: left; padding: 0 14px; font: 700 13px "Sora","Inter",sans-serif; cursor: pointer; transition: background .15s, color .15s; }
+    .admin-menu button:hover, .admin-menu button.active { background: rgba(242,182,50,.15); color: var(--accent); border-color: rgba(242,182,50,.3); }
+
+    /* Main */
+    .admin-main { min-width: 0; padding: 24px; }
+    .admin-topbar { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 22px; }
+    .admin-topbar .meta { margin: 0 0 2px; font-size: 13px; color: var(--muted); }
+    .admin-topbar h1 { margin: 0; font-size: clamp(22px,3vw,36px); color: var(--ink); font-family: "Sora","Inter",sans-serif; }
+    .admin-top-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .admin-search { width: min(240px,20vw); min-height: 38px; border: 1px solid var(--line); background: var(--white); color: var(--ink); padding: 0 12px; font: inherit; font-size: 13px; border-radius: 0; }
+    .admin-menu-toggle { display: none; width: 38px; height: 38px; border: 1px solid var(--line); background: var(--white); color: var(--ink); cursor: pointer; font-size: 18px; }
+    .icon-btn { width: 38px; height: 38px; border: 1px solid var(--line); background: var(--white); color: var(--ink); cursor: pointer; font-size: 17px; display: inline-grid; place-items: center; }
+    .admin-profile { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); padding: 0 10px; min-height: 38px; background: var(--white); color: var(--ink); font: 700 13px "Inter",sans-serif; }
+    .admin-profile .avatar { width: 28px; height: 28px; border-radius: 50%; overflow: hidden; display: inline-grid; place-items: center; flex-shrink: 0; }
+    .admin-profile .avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .logout-btn { border: 0; background: transparent; color: var(--coral); font: 700 13px "Inter",sans-serif; cursor: pointer; padding: 0; margin-left: 4px; }
+    .logout-btn:hover { text-decoration: underline; }
+
+    /* Message */
+    .message { padding: 10px 16px; margin-bottom: 14px; font-weight: 700; font-size: 14px; display: none; }
+    .message.success { display: block; background: rgba(34,197,94,.08); color: #22c55e; border: 1px solid rgba(34,197,94,.25); }
+    .message.error { display: block; background: rgba(232,92,60,.08); color: #e85c3c; border: 1px solid rgba(232,92,60,.25); }
+
+    /* Views */
+    .admin-view { display: none; }
+    .admin-view.active { display: block; }
+
+    /* Hero */
+    .admin-hero { display: flex; align-items: center; justify-content: space-between; gap: 20px; background: linear-gradient(135deg, #1c1400, #2d2000); border: 1px solid rgba(242,182,50,.18); color: #fff; padding: 28px 30px; margin-bottom: 20px; box-shadow: var(--shadow); }
+    .admin-hero .badge { background: rgba(242,182,50,.2); color: var(--accent); border: 1px solid rgba(242,182,50,.3); font-size: 11px; padding: 3px 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; font-family: "Sora","Inter",sans-serif; }
+    .admin-hero h2 { margin: 12px 0 6px; font-size: clamp(26px,3.5vw,42px); color: var(--accent); font-family: "Sora","Inter",sans-serif; }
+    .admin-hero p { max-width: 680px; color: #b8a880; margin: 0; font-size: 14px; line-height: 1.6; }
+    .admin-hero img { width: 100px; height: 100px; object-fit: contain; flex-shrink: 0; }
+
+    /* Metrics */
+    .metric-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 14px; margin: 18px 0; }
+    .metric-card { background: var(--white); border: 1px solid var(--line); box-shadow: var(--shadow); padding: 18px; }
+    .metric-card span { color: var(--muted); font-weight: 700; display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .8px; }
+    .metric-card strong { display: block; font: 800 34px "Sora",sans-serif; color: var(--accent); margin-top: 8px; }
+
+    /* Quick actions */
+    .quick-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0 22px; }
+
+    /* Dashboard grid */
+    .admin-dashboard-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; }
+    .admin-card { background: var(--white); border: 1px solid var(--line); box-shadow: var(--shadow); padding: 18px; }
+    .admin-card h3 { margin: 0 0 14px; font-family: "Sora","Inter",sans-serif; color: var(--ink); font-size: 15px; }
+
+    /* Bar chart */
+    .bar-chart { display: grid; gap: 12px; }
+    .bar-row { display: grid; grid-template-columns: 110px minmax(0,1fr) 36px; align-items: center; gap: 10px; font-size: 13px; color: var(--ink); }
+    .bar-row div { height: 10px; background: var(--line); overflow: hidden; }
+    .bar-row i { display: block; height: 100%; background: var(--accent); }
+
+    /* Section titles */
+    .section-title { display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid var(--accent); margin-bottom: 18px; }
+    .section-title h2 { margin: 0; padding: 0 0 10px; font-size: 22px; color: var(--ink); font-family: "Sora","Inter",sans-serif; }
+
+    /* Lists */
+    .admin-list { display: grid; gap: 12px; }
+    .admin-item { background: var(--white); border: 1px solid var(--line); padding: 14px; display: grid; gap: 6px; }
+    .admin-item strong { color: var(--ink); font-size: 15px; }
+    .admin-item p { color: var(--muted); margin: 0; font-size: 13px; line-height: 1.5; }
+    .admin-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+    .muted-box { border: 1px dashed var(--line); padding: 14px; color: var(--muted); font-size: 13px; margin: 0; }
+
+    /* Buttons */
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; background: var(--accent); color: #040404; font: 700 13px "Sora","Inter",sans-serif; border: none; cursor: pointer; transition: background .15s; text-decoration: none; }
+    .btn:hover { background: var(--accent-dim); }
+    .btn.alt { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+    .btn.alt:hover { border-color: var(--accent); color: var(--accent); background: transparent; }
+    .btn.danger { background: rgba(232,92,60,.12); color: #e85c3c; border: 1px solid rgba(232,92,60,.3); }
+    .btn.danger:hover { background: #e85c3c; color: #fff; }
+
+    /* Forms */
+    .form-panel { background: var(--white); border: 1px solid var(--line); box-shadow: var(--shadow); padding: 26px; }
+    .form-panel h2 { margin: 0 0 20px; font-family: "Sora","Inter",sans-serif; color: var(--ink); font-size: 20px; }
+    .form-panel h3 { margin: 0 0 14px; font-family: "Sora","Inter",sans-serif; color: var(--ink); font-size: 16px; }
+    .admin-form { display: grid; gap: 10px; }
+    .admin-form label { display: grid; gap: 5px; font: 700 11px "Inter",sans-serif; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; }
+    .admin-form input, .admin-form textarea, .admin-form select { padding: 10px 12px; border: 1px solid var(--line); background: color-mix(in srgb, var(--white) 70%, var(--paper)); color: var(--ink); font: inherit; font-size: 14px; width: 100%; box-sizing: border-box; }
+    .admin-form input:focus, .admin-form textarea:focus, .admin-form select:focus { outline: 2px solid var(--accent); border-color: var(--accent); }
+    .admin-form select option { background: var(--white); }
+    .admin-form textarea { resize: vertical; }
+    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .admin-editor-panel textarea[name="conteudo"] { min-height: 380px; }
+    .principal-admin { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+    .principal-admin img { width: 56px; height: 56px; object-fit: contain; }
+    .media-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
+    .inline-logo { width: 40px; height: 40px; object-fit: contain; vertical-align: middle; display: inline-block; }
+
+    /* Responsive */
+    @media (max-width:1100px) {
+      .admin-app { grid-template-columns: 1fr; }
+      .admin-sidebar { position: fixed; z-index: 50; inset: 0 auto 0 0; width: 290px; transform: translateX(-105%); transition: transform .2s ease; }
+      .admin-sidebar.open { transform: translateX(0); }
+      .admin-menu-toggle { display: inline-grid; place-items: center; }
+      .admin-dashboard-grid, .metric-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+      .admin-topbar { align-items: flex-start; }
+      .admin-top-actions { flex-wrap: wrap; justify-content: flex-end; }
+      .admin-search { width: 200px; }
+    }
+    @media (max-width:700px) {
+      .admin-main { padding: 16px; }
+      .admin-topbar { display: grid; }
+      .admin-top-actions { justify-content: start; }
+      .admin-dashboard-grid, .metric-grid, .form-grid-2 { grid-template-columns: 1fr; }
+      .admin-search { width: 100%; }
+      .admin-hero { display: grid; }
+      .admin-hero img { width: 72px; height: 72px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-app">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar" data-admin-sidebar>
+      <a class="admin-brand" href="./c2news-admin.html">
+        <img src="./images/logo_escudo.png" alt="C2 Trust">
+        <span>Painel C2 News</span>
+      </a>
+      <nav class="admin-menu">
+        <button class="active" data-tab="overview">Visão Geral</button>
+        <button data-tab="posts">Publicações</button>
+        <button data-tab="editor" data-new-article>Nova Publicação</button>
+        <button data-tab="media">Mídia</button>
+        <button data-tab="pages">Páginas</button>
+        <button data-tab="users">Usuários</button>
+        <button data-tab="appearance">Aparência / Layout</button>
+        <button data-tab="seo">SEO</button>
+        <button data-tab="stats">Estatísticas</button>
+        <button data-tab="marketing">Marketing</button>
+        <button data-tab="settings">Configurações</button>
+        <button data-tab="categories">Categorias</button>
+      </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <button class="icon-btn admin-menu-toggle" data-admin-menu>☰</button>
+        <div>
+          <p class="meta">Bem-vindo, <strong>samuelcarone</strong>. Este é o painel principal de administração.</p>
+          <h1 data-admin-page-title>Visão Geral</h1>
+        </div>
+        <div class="admin-top-actions">
+          <input class="admin-search" data-admin-search placeholder="Buscar no painel">
+          <a class="btn" href="./trust-news.html" target="_blank">Ver blog</a>
+          <button class="icon-btn" data-theme title="Alternar tema">☀</button>
+          <span class="admin-profile">
+            <span class="avatar"><img src="./images/logo_escudo.png" alt="C2 Trust"></span>
+            <span>samuelcarone</span>
+            <button class="logout-btn" data-admin-logout>Sair</button>
+          </span>
+        </div>
+      </header>
+
+      <p class="message" data-admin-message></p>
+
+      <!-- VISÃO GERAL -->
+      <section class="admin-view active" data-view="overview">
+        <div class="admin-hero">
+          <div>
+            <span class="badge">Administrador principal</span>
+            <h2>Bem-vindo, samuelcarone.</h2>
+            <p>Gerencie publicações, categorias, aparência, SEO e configurações do C2 News em um único lugar.</p>
+          </div>
+          <img src="./images/logo_escudo.png" alt="C2 Trust">
+        </div>
+        <div class="metric-grid" data-metrics></div>
+        <div class="quick-actions">
+          <button class="btn" data-tab="editor" data-new-article>+ Nova publicação</button>
+          <button class="btn alt" data-tab="categories">Categorias</button>
+          <button class="btn alt" data-tab="seo">Configurar SEO</button>
+          <button class="btn alt" data-tab="stats">Estatísticas</button>
+        </div>
+        <div class="admin-dashboard-grid">
+          <section class="admin-card"><h3>Atividade recente</h3><div data-activity-list></div></section>
+          <section class="admin-card"><h3>Alertas</h3><div data-alerts-list></div></section>
+          <section class="admin-card"><h3>Por categoria</h3><div class="bar-chart" data-chart></div></section>
+        </div>
+      </section>
+
+      <!-- PUBLICAÇÕES -->
+      <section class="admin-view" data-view="posts">
+        <div class="section-title">
+          <h2>Publicações</h2>
+          <button class="btn" data-tab="editor" data-new-article>+ Nova publicação</button>
+        </div>
+        <div class="admin-list" data-articles-list></div>
+      </section>
+
+      <!-- EDITOR -->
+      <section class="admin-view" data-view="editor">
+        <div class="form-panel admin-editor-panel">
+          <h2 data-form-title>Nova publicação</h2>
+          <form class="admin-form" data-article-form autocomplete="off">
+            <input type="hidden" name="id">
+            <label>Título *<input name="titulo" required placeholder="Título do artigo" maxlength="160"></label>
+            <label>Slug (URL)<input name="slug" placeholder="gerado automaticamente se ficar vazio" pattern="[a-z0-9\-]+"></label>
+            <label>Resumo / Chamada<textarea name="resumo" rows="3" placeholder="Breve descrição — aparece nos cards da listagem" maxlength="300"></textarea></label>
+            <label>Conteúdo em HTML<textarea name="conteudo" rows="18" placeholder="<p>Parágrafo de abertura...</p>&#10;<h2>Subtítulo</h2>&#10;<p class=&quot;quote&quot;>Citação em destaque.</p>"></textarea></label>
+            <div class="form-grid-2">
+              <label>URL da imagem de capa<input name="imagem_capa_url" placeholder="https://... ou ./images/nome.jpg"></label>
+              <label>Categoria *<select name="categoria"><option>Risco Integrado</option><option>Crises</option><option>Vektor</option><option>Defense</option><option>Nexus</option></select></label>
+              <label>Data de publicação<input type="date" name="data"></label>
+              <label>Tempo de leitura<input name="leitura" placeholder="ex: 5 min" maxlength="20"></label>
+            </div>
+            <div class="admin-actions" style="margin-top:8px">
+              <button class="btn" type="submit">Salvar publicação</button>
+              <button class="btn alt" type="button" data-tab="posts">Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- MÍDIA -->
+      <section class="admin-view" data-view="media">
+        <div class="section-title"><h2>Biblioteca de mídia</h2></div>
+        <div class="admin-dashboard-grid">
+          <div class="admin-card"><h3>Imagens externas</h3><p style="color:var(--muted);font-size:14px;line-height:1.6">Use URLs de imagens externas (Unsplash, servidor próprio, CDN) no campo "URL da imagem de capa" ao criar ou editar uma publicação.</p></div>
+          <div class="admin-card"><h3>Formatos recomendados</h3><p style="color:var(--muted);font-size:14px;line-height:1.6">JPG, PNG, WebP. Resolução ideal <strong>1200 × 675 px</strong> (proporção 16:9) para hero e cards.</p></div>
+          <div class="admin-card"><h3>Imagens locais</h3><p style="color:var(--muted);font-size:14px;line-height:1.6">Arquivos em <code>./images/</code> podem ser referenciados diretamente com caminho relativo, ex.: <code>./images/nome.jpg</code>.</p></div>
+        </div>
+      </section>
+
+      <!-- PÁGINAS -->
+      <section class="admin-view" data-view="pages">
+        <div class="section-title"><h2>Páginas</h2></div>
+        <div class="admin-list">
+          <article class="admin-item"><strong>C2 News — Início</strong><span class="meta">trust-news.html · Página principal do blog</span><div class="admin-actions"><a class="btn" href="./trust-news.html" target="_blank">Ver</a></div></article>
+          <article class="admin-item"><strong>Arquivo completo</strong><span class="meta">c2news-arquivo.html · Lista de todas as publicações</span><div class="admin-actions"><a class="btn" href="./c2news-arquivo.html" target="_blank">Ver</a></div></article>
+          <article class="admin-item"><strong>Artigo (template dinâmico)</strong><span class="meta">c2news-artigo.html?slug=... · Página de leitura individual</span><div class="admin-actions"><a class="btn" href="./c2news-artigo.html" target="_blank">Ver</a></div></article>
+          <article class="admin-item"><strong>Categoria (template dinâmico)</strong><span class="meta">c2news-categoria.html?cat=... · Filtragem por categoria</span><div class="admin-actions"><a class="btn" href="./c2news-categoria.html" target="_blank">Ver</a></div></article>
+        </div>
+      </section>
+
+      <!-- USUÁRIOS -->
+      <section class="admin-view" data-view="users">
+        <div class="section-title"><h2>Usuários</h2></div>
+        <div class="admin-card principal-admin" style="display:flex;align-items:center;gap:16px;margin-bottom:18px">
+          <img src="./images/logo_escudo.png" alt="C2 Trust" style="width:56px;height:56px;object-fit:contain">
+          <div>
+            <h3 style="margin:0 0 4px;color:var(--ink)">samuelcarone</h3>
+            <p style="color:var(--muted);margin:0;font-size:14px">Administrador principal — samuelcarone@yahoo.com.br</p>
+          </div>
+        </div>
+        <div class="form-panel" style="margin-bottom:18px">
+          <h3>Alterar senha</h3>
+          <p style="color:var(--muted);font-size:14px;margin:0 0 4px;line-height:1.6">Para alterar as credenciais, edite os arquivos <code>login.html</code> e <code>assets/js/admin.js</code> diretamente, atualizando o e-mail e a senha nos dois arquivos.</p>
+        </div>
+      </section>
+
+      <!-- APARÊNCIA -->
+      <section class="admin-view" data-view="appearance">
+        <div class="section-title"><h2>Aparência / Layout</h2></div>
+        <div class="admin-dashboard-grid">
+          <div class="admin-card"><h3>Identidade visual</h3><p style="color:var(--muted);font-size:14px;line-height:1.6">Logo: <img class="inline-logo" src="./images/logo_escudo.png" alt="C2 Trust"> · Ícone do escudo C2 Trust usado em todas as páginas.</p></div>
+          <div class="admin-card"><h3>Paleta de cores</h3><p style="color:var(--muted);font-size:14px;line-height:1.6">Dourado <span style="color:var(--accent);font-weight:700">#F2B632</span> sobre fundo escuro <span style="color:var(--muted);font-weight:700">#090909</span>. Definidas em <code>blog.css</code> com variáveis CSS.</p></div>
+          <div class="admin-card"><h3>Tipografia</h3><p style="color:var(--muted);font-size:14px;line-height:1.6">Títulos em <strong style="font-family:'Sora',sans-serif">Sora</strong> · Corpo em <strong>Inter</strong>. Importado do Google Fonts no topo de <code>blog.css</code>.</p></div>
+        </div>
+      </section>
+
+      <!-- SEO -->
+      <section class="admin-view" data-view="seo">
+        <div class="section-title"><h2>SEO</h2></div>
+        <div class="admin-dashboard-grid">
+          <div class="admin-card"><h3>Título do site</h3><p style="color:var(--muted);font-size:14px;line-height:1.6">C2 News | C2 Trust — Análises de risco integrado, segurança, inteligência e operações críticas.</p></div>
+          <div class="admin-card"><h3>URLs amigáveis</h3><p style="color:var(--muted);font-size:14px;line-height:1.6">Artigos acessados via <code>c2news-artigo.html?slug=slug-do-artigo</code>. Defina slugs curtos e descritivos em cada publicação.</p></div>
+          <div class="admin-card"><h3>Boas práticas</h3><p style="color:var(--muted);font-size:14px;line-height:1.6">Preencha <strong>título</strong>, <strong>resumo</strong> e <strong>imagem de capa</strong> em cada publicação para melhor indexação e compartilhamento social.</p></div>
+        </div>
+      </section>
+
+      <!-- ESTATÍSTICAS -->
+      <section class="admin-view" data-view="stats">
+        <div class="section-title"><h2>Estatísticas</h2></div>
+        <div class="metric-grid" data-stats-metrics></div>
+        <div class="admin-card" style="margin-top:20px"><h3>Publicações por categoria</h3><div class="bar-chart" data-stats-chart></div></div>
+      </section>
+
+      <!-- MARKETING -->
+      <section class="admin-view" data-view="marketing">
+        <div class="section-title"><h2>Marketing</h2></div>
+        <div class="admin-dashboard-grid">
+          <div class="admin-card"><h3>Newsletter</h3><p style="color:var(--muted);font-size:14px;line-height:1.6">Formulário de inscrição ativo em todas as páginas do C2 News. Integração com plataforma de e-mail marketing pode ser adicionada futuramente.</p></div>
+          <div class="admin-card"><h3>Linhas editoriais</h3><p style="color:var(--muted);font-size:14px;line-height:1.6">Risco Integrado, Crises, Vektor, Defense e Nexus — alinhadas às linhas de produto da C2 Trust Solution Hub.</p></div>
+          <div class="admin-card"><h3>Distribuição</h3><p style="color:var(--muted);font-size:14px;line-height:1.6">Compartilhe análises via LinkedIn, WhatsApp e e-mail. O botão WhatsApp está disponível em todas as páginas do site.</p></div>
+        </div>
+      </section>
+
+      <!-- CONFIGURAÇÕES -->
+      <section class="admin-view" data-view="settings">
+        <div class="section-title"><h2>Configurações</h2></div>
+        <div class="admin-dashboard-grid">
+          <div class="admin-card"><h3>Armazenamento</h3><p style="color:var(--muted);font-size:14px;line-height:1.6">Publicações salvas em <code>localStorage</code> sob a chave <code>c2news-posts</code>. Os dados persistem no navegador — exporte regularmente.</p></div>
+          <div class="admin-card"><h3>Autenticação</h3><p style="color:var(--muted);font-size:14px;line-height:1.6">Login via <code>login.html</code>. Sessão armazenada em <code>sessionStorage</code> — expira ao fechar o navegador.</p></div>
+          <div class="admin-card">
+            <h3>Exportar dados</h3>
+            <p style="color:var(--muted);font-size:14px;line-height:1.6;margin:0 0 14px">Copie todas as publicações em JSON para backup externo.</p>
+            <button class="btn" onclick="try{navigator.clipboard.writeText(localStorage.getItem('c2news-posts')||'[]').then(()=>{var m=document.querySelector('[data-admin-message]');if(m){m.textContent='JSON copiado para a área de transferência!';m.className='message success';setTimeout(()=>{m.textContent='';m.className='message'},3000)}})}catch(e){alert(localStorage.getItem('c2news-posts')||'[]')}">Exportar JSON</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- CATEGORIAS -->
+      <section class="admin-view" data-view="categories">
+        <div class="section-title"><h2>Categorias</h2></div>
+        <div class="admin-list" data-categories-list></div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="./assets/js/admin.js"></script>
+</body>
+</html>

@@ -1960,6 +1960,24 @@ body {
   .static-mobile-nav { display: none !important; }
 }
 
+/* Responsive hotfix: keep desktop navigation from forcing horizontal scroll. */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+@media (max-width: 1279px) {
+  .site-nav.hidden {
+    display: none;
+  }
+}
+
+.gold-orb {
+  max-width: 100vw;
+  pointer-events: none;
+}
+
 /* ===== Nav dropdown – Educacional ===== */
 .nav-edu-wrap { position: relative; }
 
